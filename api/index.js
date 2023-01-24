@@ -13,6 +13,8 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const PORT = process.env.PORT || 8800;
+
 const app = express();
 dotenv.config();
 
@@ -63,7 +65,7 @@ if (process.env.NODE_ENV === "production") {
     );
   }
 
-app.listen(8800,()=>{
+app.listen(PORT,()=>{
     connect();
     console.log("Connected to Backend");
 })
