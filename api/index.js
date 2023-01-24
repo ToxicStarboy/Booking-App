@@ -7,6 +7,12 @@ import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import cookieParser from "cookie-parser";
 
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const _dirname = dirname(_filename);
+
 const app = express();
 dotenv.config();
 
@@ -47,6 +53,15 @@ app.use((err,req,res,next)=>{
         stack:err.stack,
     });
 });
+
+// Serve the index.html file if the env is production
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("./build"));
+  
+    app.get("*", (req, res) =>
+      res.sendFile(path.resolve(__dirname, ".", "build", "index.html"))
+    );
+  }
 
 app.listen(8800,()=>{
     connect();
